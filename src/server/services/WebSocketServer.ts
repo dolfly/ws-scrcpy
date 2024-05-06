@@ -31,7 +31,8 @@ export class WebSocketServer implements Service {
     public attachToServer(item: ServerAndPort): WSServer {
         const { server, port } = item;
         const TAG = `WebSocket Server {tcp:${port}}`;
-        const wss = new WSServer({ server });
+        // eslint-disable-next-line prettier/prettier
+        const wss = new WSServer({ server, clientTracking: true, path:`/sc/api/ws`});
         wss.on('connection', async (ws: WS, request) => {
             if (!request.url) {
                 ws.close(4001, `[${TAG}] Invalid url`);

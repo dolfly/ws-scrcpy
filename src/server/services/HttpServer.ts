@@ -73,12 +73,11 @@ export class HttpServer extends TypedEmitter<HttpServerEvents> implements Servic
     public async start(): Promise<void> {
         this.mainApp = express();
         if (HttpServer.SERVE_STATIC && HttpServer.PUBLIC_DIR) {
-            this.mainApp.use(express.static(HttpServer.PUBLIC_DIR));
+            this.mainApp.use('/sc/', express.static(HttpServer.PUBLIC_DIR));
 
             /// #if USE_WDA_MJPEG_SERVER
-
             const { MjpegProxyFactory } = await import('../mw/MjpegProxyFactory');
-            this.mainApp.get('/mjpeg/:udid', new MjpegProxyFactory().proxyRequest);
+            this.mainApp.get('/sc/mjpeg/:udid', new MjpegProxyFactory().proxyRequest);
             /// #endif
         }
         const config = Config.getInstance();

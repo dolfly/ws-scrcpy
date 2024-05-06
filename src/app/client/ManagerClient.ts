@@ -90,12 +90,12 @@ export abstract class ManagerClient<P extends ParamsBase, TE> extends BaseClient
         let urlString: string;
         if (typeof hostname === 'string' && typeof port === 'number') {
             const protocol = secure ? 'wss:' : 'ws:';
-            urlString = `${protocol}//${hostname}:${port}`;
+            urlString = `${protocol}//${hostname}:${port}/sc/api/ws`;
         } else {
             const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
 
             // location.host includes hostname and port
-            urlString = `${protocol}${location.host}`;
+            urlString = `${protocol}${location.host}/sc/api/ws`;
         }
         const directUrl = new URL(urlString);
         if (this.supportMultiplexing()) {
@@ -110,7 +110,7 @@ export abstract class ManagerClient<P extends ParamsBase, TE> extends BaseClient
 
     protected wrapInProxy(directUrl: URL): URL {
         const localProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const localUrl = new URL(`${localProtocol}//${location.host}`);
+        const localUrl = new URL(`${localProtocol}//${location.host}/sc/api/ws`);
         localUrl.searchParams.set('action', ACTION.PROXY_WS);
         localUrl.searchParams.set('ws', directUrl.toString());
         return localUrl;

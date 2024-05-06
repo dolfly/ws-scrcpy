@@ -109,6 +109,7 @@ const front: webpack.Configuration = {
         extensions: ['.tsx', '.ts', '.js'],
     },
     output: {
+        publicPath: './',
         filename: 'bundle.js',
         path: CLIENT_DIST_PATH,
     },
